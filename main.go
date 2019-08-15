@@ -1,6 +1,7 @@
 package main
 
 import (
+//	"bytes"
 	"fmt"
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/proxy"
@@ -19,9 +20,23 @@ func main() {
 	c.SetProxyFunc(rp)
 
 	// On every a element which has href attribute call callback
-	c.OnHTML(".basicIPInfo", func(e *colly.HTMLElement) {
+	c.OnHTML("#offers_table", func(e *colly.HTMLElement) {
 		// Print link
-		fmt.Printf("ip found: %q -> %s\n", e.Text, e.Text)
+		// motoList := e.Text
+
+		e.ForEach("table", func(someInt int, e *colly.HTMLElement) {
+
+			// motoList := e.Text
+
+
+			fmt.Println(someInt)
+
+			//	fmt.Printf("text found: %q -> %s\n", motoList, motoList)
+		})
+
+	//	fmt.Println(e.Text)
+
+	//	fmt.Printf("text found: %q -> %s\n", motoList, motoList)
 		// Visit link found on page
 		// Only those links are visited which are in AllowedDomains
 		//c.Visit(e.Request.AbsoluteURL(e))
@@ -33,10 +48,10 @@ func main() {
 	})
 
 	// Print the response
-	//c.OnResponse(func(r *colly.Response) {
+	c.OnResponse(func(r *colly.Response) {
 	//	log.Printf("%s\n", bytes.Replace(r.Body, []byte("\n"), nil, -1))
-	//})
+	})
 
 	// Start scraping on https://hackerspaces.org
-	c.Visit("https://www.namhost.com/tools")
+	c.Visit("https://www.olx.ua/transport/moto/")
 }
